@@ -7,11 +7,6 @@
    <node pkg="Robotics-Project-2" type="odom_tf" respawn="false" name="odom_tf" output="screen"/>
    
 
-
-
- <!-- **************  Robot localization **************  -->
- <!-- <include file="$(find Robotics-Project-2)/launch/localization.launch"/> -->
-
 <!-- **************  scan_merger, combines data from different sensors**************  -->
   <include file="$(find Robotics-Project-2)/launch/scan_merger.launch"/> 
   

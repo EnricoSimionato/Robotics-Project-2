@@ -2,10 +2,10 @@
 <launch>
  
   <!-- Name of the map to use and initial position -->
-  <arg name="map_file"       default="$(find nav2d_conf)/maps/maze.yaml"/> 
-  <arg name="world_file"     default="$(find nav2d_conf)/maps/stage/maze.world"/>
-  <arg name="initial_pose_x" default="2.0"/>
-  <arg name="initial_pose_y" default="2.0"/>
+  <arg name="map_file"       default="$(find Robotics-Project-2)/maps/map.yaml"/> 
+
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="0.0"/>
 
   <arg name="odom_frame_id"   default="odom"/>
@@ -14,23 +14,14 @@
   <param name="/use_sim_time" value="true"/>
 
 
- <!--  ***************** Robot simulation *****************  -->
-  <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
-    <param name="base_watchdog_timeout" value="0.5"/>
-    <remap from="base_scan" to="scan"/>
-  </node>
-
-
-
-
   <!--  ************** Navigation  ***************  -->
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find nav2d_conf)/cfg/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find nav2d_conf)/cfg/costmap_common_params.yaml" command="load" ns="local_costmap" />   
-    <rosparam file="$(find nav2d_conf)/cfg/local_costmap_params.yaml" command="load" />   
-    <rosparam file="$(find nav2d_conf)/cfg/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find nav2d_conf)/cfg/dwa_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find nav2d_conf)/cfg/move_base_params.yaml" command="load" /> 
+    <rosparam file="$(find Robotics-Project-2)/cfg/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find Robotics-Project-2)/cfg/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find Robotics-Project-2)/cfg/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find Robotics-Project-2)/cfg/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find Robotics-Project-2)/cfg/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find Robotics-Project-2)/cfg/move_base_params.yaml" command="load" /> 
 
     <param name="base_global_planner" value="navfn/NavfnROS" />  <!--   planner  navfn/NavfnROS alternative  carrot_planner/CarrotPlanner -->
     <param name="planner_frequency" value="1.0" />
@@ -51,7 +42,7 @@
 
 
   <!--  ****** amcl *****  -->
-  <include file="$(find nav2d_conf)/launch/amcl.launch.xml">
+  <include file="$(find Robotics-Project-2)/config/amcl.launch.xml">
     <arg name="scan_topic" value="scan"/>
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
@@ -59,7 +50,16 @@
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
   </include>
 
+<!-- **************  scan_merger, combines data from different sensors**************  -->
+  <include file="$(find Robotics-Project-2)/launch/scan_merger.launch"/> 
+
+ <!--  ************** add odom tf  ***************  -->
+   <node pkg="Robotics-Project-2" type="odom_tf" respawn="false" name="odom_tf" output="screen"/>
+   
+
+<node pkg="tf" type="static_transform_publisher" name="footprint_to_map" args="0.0 0.0 0.0 0.0 0.0 0.0 base_footprint map 100" />
+<node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0.0 0.0 0.0 0.0 0.0 0.0 map odom 100" />
 
   <!--  **************** Visualisation ****************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find nav2d_conf)/rviz/robot_navigation.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find Robotics-Project-2)/rviz/rviz.rviz"/>
 </launch>
