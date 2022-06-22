@@ -1,15 +1,14 @@
 <launch>
-  <arg name="scan_topic"  default="scan_multi"/>
+  <arg name="scan_topic"  default="scan_multi" />
   <arg name="base_frame"  default="base_link"/>
   <arg name="odom_frame"  default="odom"/>
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
-    <param name="tf" value="tf_static"/>
     <param name="base_frame" value="$(arg base_frame)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
-    <param name="map_update_interval" value="3.0"/>
-    <param name="maxUrange" value="15.0"/>
-    <param name="maxRange" value="16.0"/>
+    <param name="map_update_interval" value="2.0"/>
+    <param name="maxUrange" value="14.0"/>
+    <param name="maxRange" value="15.0"/>
     <param name="sigma" value="0.05"/>
     <param name="kernelSize" value="5"/>
     <param name="lstep" value="0.05"/>
@@ -27,7 +26,7 @@
     <param name="angularUpdate" value="0.1"/>
     <param name="temporalUpdate" value="-1.0"/>
     <param name="resampleThreshold" value="0.5"/>
-    <param name="particles" value="75"/>
+    <param name="particles" value="50"/>
 
     <param name="xmin" value="-40.0"/>
     <param name="ymin" value="-40.0"/>

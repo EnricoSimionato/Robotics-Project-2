@@ -6,8 +6,8 @@
 class pub_sub
 {
 
-std_msgs::String messaggio;
-std_msgs::String messaggio2;
+std_msgs::String messagio;
+std_msgs::String messagio2;
 
 private:
 ros::NodeHandle n; 
@@ -20,7 +20,7 @@ ros::Timer timer1;
 	
 public:
   	pub_sub(){
-  	sub = n.subscribe("/odom", 1, &pub_sub::callback, this);
+  	sub = n.subscribe("odom", 1, &pub_sub::callback, this);
 	  
 
 }
@@ -41,7 +41,7 @@ void callback(const nav_msgs::Odometry::ConstPtr& msg){
 
 int main(int argc, char **argv)
 {
- 	ros::init(argc, argv, "odom_tf");
+ 	ros::init(argc, argv, "subscribe_and_publish");
  	pub_sub my_pub_sub;
  	ros::spin();
  	return 0;
