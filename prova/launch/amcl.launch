@@ -42,5 +42,7 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prova)/rviz/rviz.rviz"/>
 
   
+<!-- **************  service node **************  -->
+  <node pkg="prova" type="service.py" name="service" output="screen"/>
 
 </launch>

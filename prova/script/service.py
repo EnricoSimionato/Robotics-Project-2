@@ -48,7 +48,7 @@ def draw_trajectory(req):
 	global img_copy
 	print("Drawing trajectory")
 	cv2.imwrite("map_with_trajectory.png", img_copy[350:1200, 450:1200])
-	return Empty
+	return []
 
 def listener():
 
@@ -57,6 +57,7 @@ def listener():
             rospy.Subscriber("amcl_pose", PoseWithCovarianceStamped, callback)
       
      	    s = rospy.Service('draw_trajectory', Empty, draw_trajectory)
+
 	    rospy.spin()
 
 if __name__ == '__main__':
