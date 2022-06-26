@@ -9,7 +9,7 @@ from std_srvs.srv import Empty
 x_value_prec = 0
 y_value_prec = 0
 isFirstTime = True
-img = cv2.imread("map1.pgm")
+img = cv2.imread("/path_to_the_folder/map1.pgm") # <<<<<----- You have to change the path here
 img_copy = img.copy()
 rows,cols = img_copy.shape[:2] 
 M = cv2.getRotationMatrix2D((cols/2,rows/2),265,1) 
@@ -47,7 +47,7 @@ def callback(data):
 def draw_trajectory(req):
 	global img_copy
 	print("Drawing trajectory")
-	cv2.imwrite("map_with_trajectory.png", img_copy[350:1200, 450:1200])
+	cv2.imwrite("/path_to_the_folder/map_with_trajectory.png", img_copy[350:1200, 450:1200]) # <<<<<----- You have to change the path here
 	return []
 
 def listener():
