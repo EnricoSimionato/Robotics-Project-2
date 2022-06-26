@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 The following program is used to display the real pose positions taken by the
 robot in rviz.
@@ -14,7 +15,6 @@ def callback(data):
     add_point.x = data.pose.pose.position.x
     add_point.y = data.pose.pose.position.y
     add_point.z = 0
-    rospy.loginfo('Publishing Marker Point')
     marker.points.append(add_point)
     # Publish the Marker
     pub_point.publish(marker)
@@ -33,9 +33,9 @@ marker.scale.z = 0.03
 
 # marker color
 marker.color.a = 1.0
-marker.color.r = 1.0
+marker.color.r = 0.0
 marker.color.g = 0.0
-marker.color.b = 0.0
+marker.color.b = 1.0
 
 # marker orientaiton
 marker.pose.orientation.x = 0.0

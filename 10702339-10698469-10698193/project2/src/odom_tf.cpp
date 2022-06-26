@@ -31,12 +31,6 @@ void callback(const nav_msgs::Odometry::ConstPtr& msg){
   static tf::TransformBroadcaster br;
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
 }
-
-
-
-
-
-
 };
 
 int main(int argc, char **argv)

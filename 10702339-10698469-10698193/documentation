@@ -1,0 +1,59 @@
+﻿Robotics second project 2022
+
+Members:
+- Matteo Ronchetti 10702339
+- Alberto Sandri 10698469 
+- Enrico Simionato 10698193
+
+Files description:
+Folder "config": 
+	- amcl.launch.xml contains the parameters which are needed to perform localization with amcl algorithm;
+	-gmapping.launch.xml contains the parameters which are needed to perform gmapping SLAM algorithm.
+Folder "launch":
+	- amcl.launch starts all the nodes related to amcl localization (map server, amcl, scan_merger, node to broadcast odometry as a tf, rviz, service to draw trajectory, merger node);
+	- mapping.launch starts all the nodes related to gmapping (gmapping, scan_merger, node to broadcast odometry as a tf, rviz);
+	- scan_merger.launch starts the node which merges multiple laser scans into a single one. The launch file sets some parameters needed to merge the scans.
+Folder "maps":
+	-map.pgm is the file containg the occupancy grid map file obtained with gmapping;
+	-map.yaml is the file containing metadata related to the map file;
+	-trajectory_bag2.pgm shows the trajectory computed by using amcl with "robotics2_final.bag";
+	-trajectory_bag3.pgm shows the trajectory computed by using amcl with "robotics3_final.bag".
+Folder "rviz":
+	-amcl.rviz contains the configuration loaded by rviz when the amcl launch file is called;
+	-mapping.rviz contains the configuration loaded by rviz when mapping amcl launch file is called.
+Folder "script":
+	-service.py starts a python node for reading the trajectory given by the amcl node and provides a service to draw the trajectory on the map;
+	-client.py starts the python node which call the trajectory drawing service;
+	-merger.py online tool for drawing the trajectory in rviz.
+Folder "src":
+	-odom_tf.cpp is the node which subscribe to the odometry topic and publish the tf transformation between the odom frame and the baselink frame.
+
+Structure of the TF tree
+The TF tree is composed by six frames: map, odom, base_link, laser_front, laser_rear, base_footprint.
+The "map" frame is the frame related to the origin of the map.
+The "odom" frame is the frame related to the origin of the odometry.
+THe "base_link" frame is the frame placed in the odometric centre of the robot. This frame moves as the robot moves.
+The "laser_front" is the frame with the origin on the position of the laser placed on the front of the robot.
+The "laser_rear" is the frame with the origin on the position of the laser placed on the rear part of the robot.
+The "base_footprint" follows the position of the robot.
+The tf tree can be displayed executing the command "rosrun rqt_tf_tree rqt_tf_tree" after launching the launch file and a bag.
+
+Bags' usage:
+We decide to use the bag "robotics1_final.bag" for building the map. The other bags are used for doing the localization of the robot inside the precomputed map.
+
+How to start:
+1) Move the folder "project2" from "10702339-10698469-10698193" to the folder "src" into the ROS workspace (in the course ~/robotics/src/);
+2) Open a terminal and move to your ROS workspace (in the course ~/robotics/);
+3) Execute "catkin_make";
+4) Execute "roslaunch project2 mapping.launch" for creating the map;
+Now the nodes for doing the mapping of the area are running.
+5) Start a bag (robotics1_final.bag, in our case) for starting the mapping step (rosbag play --clock path_to_your_bag/robotics1_final.bag);
+6) After the end of the bag, execute the command "rosrun map_server map_saver -f map" for saving the map. If you want you can move it, with the yaml file, to the "maps" folder and replace the given ones to use them for localization;
+7) Execute "roslaunch project2 amcl.launch" for starting the localization nodes;
+Now the nodes for doing the localization of the robot are running.
+8) Start a bag (robotics2_final.bag or robotics3_final.bag, in our case) for starting the localization inside the map, based on the datas received from sensors;
+9) To use the service for drawing the trajectory on the map, execute the client.py script (python client.py). The map with trajectory will be in the "maps" folder.
+
+Notes:
+The map is already usable, maybe by tuning more the parameters of gmapping the map could improve.
+Some other improvements in the drawing algorithm might be implemented to draw a smoother trajectory, but due to exam session we didn't have enough time.

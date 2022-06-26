@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 import cv2
+import os
 import numpy as np
 from PIL import Image
 import rospy
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from std_srvs.srv import Empty
 
+path = os.path.dirname(__file__)
 x_value_prec = 0
 y_value_prec = 0
 isFirstTime = True
-img = cv2.imread("/path_to_the_folder/map1.pgm") # <<<<<----- You have to change the path here
+img = cv2.imread(path[:len(path) - 7] + "/maps/map.pgm")
 img_copy = img.copy()
 rows,cols = img_copy.shape[:2] 
-M = cv2.getRotationMatrix2D((cols/2,rows/2),265,1) 
+M = cv2.getRotationMatrix2D((cols/2,rows/2),270,1) 
 img_copy = cv2.warpAffine(img_copy,M,(cols,rows))
 
 def callback(data):
@@ -46,14 +48,15 @@ def callback(data):
 
 def draw_trajectory(req):
 	global img_copy
+	global path
 	print("Drawing trajectory")
-	cv2.imwrite("/path_to_the_folder/map_with_trajectory.png", img_copy[350:1200, 450:1200]) # <<<<<----- You have to change the path here
+	cv2.imwrite(path[:len(path) - 7] + "/maps/map_with_trajectory.png", img_copy[350:1200, 450:1200])
 	return []
 
 def listener():
 
 	    rospy.init_node('trajectory_drawer', anonymous=True)
-	
+	 
             rospy.Subscriber("amcl_pose", PoseWithCovarianceStamped, callback)
       
      	    s = rospy.Service('draw_trajectory', Empty, draw_trajectory)
