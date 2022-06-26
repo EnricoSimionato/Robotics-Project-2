@@ -1,0 +1,27 @@
+﻿Robotics second project 2022
+
+Members:
+- Matteo Ronchetti 10702339
+- Alberto Sandri 10698469 
+- Enrico Simionato 10698193
+
+Files description:
+Folder "config": 
+	- amcl.launch.xml contains the paramters which are needed to perform localization with amcl algorithm;
+	-gmapping.launch.xml contains the parameters which are needed to perform gmapping SLAM algorithm.
+Folder "launch":
+	- amcl.launch starts all the nodes related to amcl localization (map server, amcl, scan_merger, node to broadcast odometry as a tf)
+	- gmapping.launch starts all the nodes related to gmapping (map server, amcl, scan_merger, node to broadcast odometry as a tf)
+	-
+
+
+Structure of the TF tree:
+
+
+Bags' usage:
+
+
+How to start nodes:
+
+
+Notes:
