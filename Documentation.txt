@@ -1,9 +1,4 @@
-﻿Robotics second project 2022
-
-Members:
-- Matteo Ronchetti 10702339
-- Alberto Sandri 10698469 
-- Enrico Simionato 10698193
+Robotics second project 2022
 
 Files description:
 Folder "config": 
